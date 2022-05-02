@@ -23,7 +23,7 @@ public class SpringBootStarterApplication {
 	}
 
 	// create commandRunner bean to instantiate jpa ops
-	@Bean
+	/*@Bean
 	public CommandLineRunner demo(StudentRepository repository){
 		return (args -> {
 			// save few demo students
@@ -54,5 +54,5 @@ public class SpringBootStarterApplication {
 
 			repository.findWhoBinodIs("Binod").forEach(x -> log.info("Found Binod: {}", x.toString()));
 		});
-	}
+	}*/
 }
