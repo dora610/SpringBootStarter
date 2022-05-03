@@ -18,8 +18,9 @@ public class BookController {
     private BookService service;
 
     @GetMapping("/find")
-    public ResponseEntity<List<Book>> getBook(@RequestParam(value = "name") String bookName) throws InvalidInputException {
-        if(bookName==null || bookName.isBlank()){
+    public ResponseEntity<List<Book>> getBook(@RequestParam(value = "name") String bookName)
+            throws InvalidInputException, NotFoundException {
+        if (bookName == null || bookName.isBlank()) {
             throw new InvalidInputException(String.format("Invalid input provided for book name: %s", bookName));
         }
         return ResponseEntity.of(Optional.of(service.getBook(bookName)));
@@ -28,13 +29,14 @@ public class BookController {
     @GetMapping("/")
     public ResponseEntity<List<Book>> getAllBook() throws NotFoundException {
         List<Book> books = service.getAllBooks();
-        if(books.size() == 0){
+        if (books.size() == 0) {
             throw new NotFoundException("No book available");
         }
         return ResponseEntity.of(Optional.of(books));
     }
+
     @PostMapping("/")
-    public ResponseEntity<String> saveBook(@RequestBody Book book){
+    public ResponseEntity<String> saveBook(@RequestBody Book book) {
         String template = "Successfully saved book: %s";
         return ResponseEntity.of(Optional.of(String.format(template, service.saveBook(book))));
     }
@@ -42,5 +44,10 @@ public class BookController {
     @PutMapping("/")
     public ResponseEntity<String> updateBook(@RequestParam(value = "id") Long bookId, @RequestBody Book book) throws Exception {
         return ResponseEntity.of(Optional.of(service.updateBook(bookId, book)));
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<String> deleteBook(@RequestParam(value = "id") Long id) throws NotFoundException {
+        return ResponseEntity.of(Optional.of(service.deleteBook(id)));
     }
 }
